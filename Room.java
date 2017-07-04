@@ -37,7 +37,7 @@ public class Room {
     }
 
     public Boolean assing(Lesson l){
-        for (int i = l.getStart(); i < l.getLenght(); i++) {
+        for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
                 return false;
             }
@@ -95,6 +95,7 @@ public class Room {
             for (int j = 1; j < SLOTS; j++) {
                 if(allocaton[i][j]!=allocaton[i][j-1]&&allocaton[i][j-1]!=null&&allocaton[i][j]==null)
                     counter++;
+
             }
         }
         return counter;
@@ -119,13 +120,13 @@ public class Room {
     public double benifit(Lesson l){
 
         if(l.getStudents()<this.getCapacity())
-            return this.getCapacity()-l.getStudents();
+            return l.getStudents();
         else
             return this.getCapacity();
 
     }
     public double newCost(Lesson l){
-        for (int i = l.getStart(); i < l.getLenght(); i++) {
+        for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
                 return -10000;
             }
@@ -137,7 +138,7 @@ public class Room {
     }
     public double cost(Lesson l) {
         double result=0;
-        for (int i = l.getStart(); i < l.getLenght(); i++) {
+        for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
                 result=-100;
             }

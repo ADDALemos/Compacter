@@ -29,15 +29,22 @@ public class Main {
         System.out.println("Seat B:"+spaceFull(afb));
         System.out.println("Seat C:"+spaceFull(rp));
 
-       // stats(rp);
-       // stats(af);
-       // stats(afb);
+        stats(rp);
+        stats(af);
+        stats(afb);
+        System.exit(1);
+
         af = Load.readROOM(file);
         afb = Load.readROOM(file1);
+        //af.addAll(Load.readROOM(file1));
+        //af.addAll(Load.readROOM(file2));
         rp = Load.readROOM(file2);
         ll = Load.readLesson(file3);
+        //ll.addAll(Load.readLesson(file4));
         llb = Load.readLesson(file4);
+        //ll.addAll(Load.readLesson(file5));
         ls = Load.readLesson(file5);
+
         System.out.printf("RUN1");
 
         run1(af, afb,ll, llb,rp, ls);
@@ -47,33 +54,33 @@ public class Main {
         System.out.println("Seat A:"+spaceFull(af));
         System.out.println("Seat B:"+spaceFull(afb));
         System.out.println("Seat C:"+spaceFull(rp));
-       // stats(rp);
-       // stats(af);
-       // stats(afb);
+        stats(rp);
+        stats(af);
+        stats(afb);
 
         af = Load.readROOM(file);
         af.addAll(Load.readROOM(file1));
         af.addAll(Load.readROOM(file2));
 
-        //afb = Load.readROOM(file1);
+       // afb = Load.readROOM(file1);
         //rp = Load.readROOM(file2);
         ll = Load.readLesson(file3);
         ll.addAll(Load.readLesson(file4));
         ll.addAll(Load.readLesson(file5));
 
-        // llb = Load.readLesson(file4);
+        //llb = Load.readLesson(file4);
         //ls = Load.readLesson(file5);
         System.out.printf("RUN2");
 
         run2(af, afb,ll, llb,rp, ls);
-        /*System.out.println("Seat A:"+spaceFails(af));
+        System.out.println("Seat A:"+spaceFails(af));
         System.out.println("Seat B:"+spaceFails(afb));
         System.out.println("Seat C:"+spaceFails(rp));
         System.out.println("Seat A:"+spaceFull(af));
         System.out.println("Seat B:"+spaceFull(afb));
-        System.out.println("Seat C:"+spaceFull(rp));*/
-       // stats(rp);
-       // stats(af);
+        System.out.println("Seat C:"+spaceFull(rp));
+        stats(rp);
+      //  stats(af);
        // stats(afb);
 
 
@@ -102,12 +109,12 @@ public class Main {
     }
 
     private static void run(List<Room> af, List<Room> afb,List<Lesson> ll, List<Lesson> llb, List<Room> rp, List<Lesson> ls) {
-        Collections.sort(ll, new CompareByStart());
+       /* Collections.sort(ll, new CompareByStart());
         Collections.sort(llb, new CompareByStart());
-        Collections.sort(ls, new CompareByStart());
-       /* Collections.sort(ll, new CompareByEnd());
+        Collections.sort(ls, new CompareByStart());*/
+        Collections.sort(ll, new CompareByEnd());
         Collections.sort(llb, new CompareByEnd());
-        Collections.sort(ls, new CompareByEnd());*/
+        Collections.sort(ls, new CompareByEnd());
 
         Collections.sort(af, new CompareBySize());
         Collections.sort(afb, new CompareBySize());
@@ -127,7 +134,9 @@ public class Main {
         System.out.println("Sorted run2");
 
         assign2(af, ll);
+        System.out.println("room");
         //assign2(rp, ls);
+        System.out.println("b");
         //assign2(afb, llb);
 
 
@@ -181,7 +190,7 @@ public class Main {
 
             }
             if(rF==null || lF==null)
-                System.out.println("FAIL");
+                System.out.println("FAIL1");
             else if (rF.assing(lF)) {
                 alloced[ln] = true;
                 benifit+=rF.benifit(lF);
@@ -191,6 +200,14 @@ public class Main {
             }
             alloc++;
 
+
+        }
+        int i=0;
+        for (Lesson l:
+             ll) {
+            if (!alloced[i])
+                System.out.println(l.getStudents());
+                i++;
 
         }
 
@@ -231,7 +248,17 @@ public class Main {
             if (rF.assing(lF)) {
                 alloced[ln] = true;
                 alloc++;
-            }
+            } else
+                alloc++;
+
+
+        }
+        int i=0;
+        for (Lesson l:
+                ll) {
+            if (!alloced[i])
+                System.out.println(l.getStudents());
+            i++;
 
         }
     }
@@ -248,7 +275,9 @@ public class Main {
         System.out.println("Sorted run1");
 
         assign(af, ll);
+        System.out.println("s");
         assign(afb, llb);
+        System.out.println("n");
         assign(rp, ls);
 
 
@@ -256,6 +285,7 @@ public class Main {
 
     private static void assign(List<Room> af, List<Lesson> ll) {
         int alloc = 0;
+        int s=0;
         while (ll.size() > alloc) {
             Lesson l = ll.get(alloc);
             boolean assing=false;
@@ -269,11 +299,14 @@ public class Main {
             }
             if(!assing){
                 System.out.println("FAIL");
-                return;
+                alloc++;
+                s+=l.getStudents();
+                //return;
             }
 
 
         }
+        System.out.println(s);
     }
 
     public static int spaceFails(List<Room> room){
