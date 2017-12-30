@@ -53,6 +53,8 @@ public class ILPrun {
                 // Create start variables
 
                 IloNumVar[][][][] room1 = defineRoom(roomNumber, lessonNumber, cplex1);
+                compact(roomNumber, lessonNumber, cplex1, room1, lessonSet);
+                cplex1.exportModel("mo1.lp");
                 //  IloNumVar[][][] lesson1 = defineLesson(lessonNumber, cplex1);
                 standartEncoding(roomNumber, lessonSet, cplex1, room1, null);
 
@@ -63,7 +65,6 @@ public class ILPrun {
 
                 //cplex1.addEq((int)val,temp);
 
-                compact(roomNumber, lessonNumber, cplex1, room1, lessonSet);
 
                 if (cplex1.solve()) {
                     out(roomNumber, lessonNumber, lessonSet, roomCAP, cplex1, room1);
@@ -133,19 +134,21 @@ public class ILPrun {
         for (int j = 0; j < roomNumber; j++) {
             // for (int i = 0; i < 5; i++) {
             for (int k = 1; k < 26; k++) {
-                //IloNumExpr behind = cplex.numExpr();
+                IloNumExpr behind = cplex.numExpr();
                 IloNumExpr infront = cplex.numExpr();
                     for (int l = 0; l < lessonNumber; l++
                             ) {
-                        infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k - 1], room[l][j][lessonSet.get(l).getDay()][k]);
+                        //infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k - 1], room[l][j][lessonSet.get(l).getDay()][k]);
 
                         // min = cplex.sum(min, cplex.prod(room[l][j][i][k + 1],  room[l][j][i][k]));
                         //infront=cplex.or(cplex.eq(1,infront),cplex.eq(1,room[l.getId()][j][i][k1]));
-                        //behind=cplex.sum(behind, room[l][j][i][k]);
+                        behind = cplex.sum(behind, room[l][j][lessonSet.get(l).getDay()][k - 1]);
+                        infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k]);
+
 
 
                     }
-                cplex.sum(min, cplex.prod(infront, cplex.eq(1, infront)));
+                min = cplex.sum(min, cplex.prod(1, cplex.eq(behind, infront)));
 
 
                     //  cplex.sum(min, cplex.abs(cplex.sum(cplex.prod(infront, -1), behind)));
@@ -158,8 +161,7 @@ public class ILPrun {
                 }
             //}
         }
-        cplex.addMaximize(min);
-        cplex.exportModel("mo1.lp");
+        cplex.addMinimize(min);
 
     }
 
