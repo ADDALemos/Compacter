@@ -9,11 +9,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360898.txt");//EnsinoL2448131360898
-        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360898.txt");
-        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360898.txt");
+        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360897.txt");//EnsinoL2448131360898
+        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360897.txt");
+        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360897.txt");
 
-        File fileS = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
+        File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
         File fileT = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
         File fileQ2 = new File("/Volumes/MAC/normal/Alameda17Qui.txt");
         File fileQ1 = new File("/Volumes/MAC/normal/Taguspark17.txt");

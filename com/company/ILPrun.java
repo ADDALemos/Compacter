@@ -49,30 +49,32 @@ public class ILPrun {
 
                 cplex.end();
 
-                IloCplex cplex1 = createIloCplex();
+                cplex = createIloCplex();
                 // Create start variables
 
-                IloNumVar[][][][] room1 = defineRoom(roomNumber, lessonNumber, cplex1);
-                compact(roomNumber, lessonNumber, cplex1, room1, lessonSet);
-                cplex1.exportModel("mo1.lp");
-                //  IloNumVar[][][] lesson1 = defineLesson(lessonNumber, cplex1);
-                standartEncoding(roomNumber, lessonSet, cplex1, room1, null);
+                room = defineRoom(roomNumber, lessonNumber, cplex);
+                standartEncoding(roomNumber, lessonSet, cplex, room, null);
+                IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
-                IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex1, room1);
+
+                compact(roomNumber, lessonNumber, cplex, room, lessonSet);
+                //cplex.exportModel("mo1.lp");
+                //  IloNumVar[][][] lesson1 = defineLesson(lessonNumber, cplex1);
+
                 //MultipleObjectiveException
-                cplex1.addEq(temp, val);
+                cplex.addEq(temp, val);
                 // cplex1.addMaximize(temp);
 
                 //cplex1.addEq((int)val,temp);
 
 
-                if (cplex1.solve()) {
-                    out(roomNumber, lessonNumber, lessonSet, roomCAP, cplex1, room1);
+                if (cplex.solve()) {
+                    out(roomNumber, lessonNumber, lessonSet, roomCAP, cplex, room);
 
 
                 }
                 //cplex1.exportModel("test.lp");
-                cplex1.end();
+                cplex.end();
 
 
             } else {
@@ -114,11 +116,19 @@ public class ILPrun {
         for (int j = 0; j < roomNumber; j++) {
             for (int i = 0; i < 5; i++) {
                 for (int k = 1; k < 26; k++) {
-                    int v = 0;
+                    double v = 0;
                     for (int l = 0; l < lessonNumber; l++) {
+                        // if (k < lessonSet.get(l).getStart() || k >= (lessonSet.get(l).getStart() + lessonSet.get(l).getLenght()) || i != lessonSet.get(l).getDay()) {
+                        //
+                        //}
+                        ///  else{
+                        //   if(cplex.getValue(room[l][j][i][k - 1])!=0||cplex.getValue(room[l][j][i][k ])!=0)
+                        // System.out.println(cplex.getValue(room[l][j][i][k - 1])+" now "+cplex.getValue(room[l][j][i][k ])+" slot "+k+" "+l+" room  "+j+" day "+i+ " slot for lesson"+lessonSet.get(l).getStart()+" lesson cap"+lessonSet.get(l).getStudents()+" room cap"+roomCAP.get(j).getCapacity()+" lesson day "+lessonSet.get(l).getDay());
                         v += cplex.getValue(room[l][j][i][k - 1]);
                         v += cplex.getValue(room[l][j][i][k]);
+                        //}
                     }
+                    System.out.println("v" + v);
                     if (v == 1)
                         comp++;
 
@@ -132,23 +142,38 @@ public class ILPrun {
     private static void compact(int roomNumber, int lessonNumber, IloCplex cplex, IloNumVar[][][][] room, List<Lesson> lessonSet) throws IloException {
         IloNumExpr min = cplex.numExpr();
         for (int j = 0; j < roomNumber; j++) {
-            // for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 5; i++) {
             for (int k = 1; k < 26; k++) {
                 IloNumExpr behind = cplex.numExpr();
-                IloNumExpr infront = cplex.numExpr();
+                int after = -1, befor = -1;
+                // IloNumExpr infront = cplex.numExpr();
                     for (int l = 0; l < lessonNumber; l++
                             ) {
                         //infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k - 1], room[l][j][lessonSet.get(l).getDay()][k]);
 
                         // min = cplex.sum(min, cplex.prod(room[l][j][i][k + 1],  room[l][j][i][k]));
                         //infront=cplex.or(cplex.eq(1,infront),cplex.eq(1,room[l.getId()][j][i][k1]));
-                        behind = cplex.sum(behind, room[l][j][lessonSet.get(l).getDay()][k - 1]);
-                        infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k]);
+                        if (k < lessonSet.get(l).getStart() || k >= (lessonSet.get(l).getStart() + lessonSet.get(l).getLenght()) || i != lessonSet.get(l).getDay()) {
+                            //
+                        } else {
+                            behind = cplex.sum(behind, room[l][j][i][k]);
+                            after++;
+                        }
+                        if ((k - 1) < lessonSet.get(l).getStart() || (k - 1) >= (lessonSet.get(l).getStart() + lessonSet.get(l).getLenght()) || i != lessonSet.get(l).getDay()) {
+                            //
+                        } else {
+                            behind = cplex.sum(behind, room[l][j][i][k - 1]);
+                            befor++;
+                        }
+
+                        // infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k]);
 
 
 
                     }
-                min = cplex.sum(min, cplex.prod(1, cplex.eq(behind, infront)));
+                if (after != -1 && befor != -1)
+                    min = cplex.sum(min, cplex.prod(1, cplex.eq(behind, 1)));
+
 
 
                     //  cplex.sum(min, cplex.abs(cplex.sum(cplex.prod(infront, -1), behind)));
@@ -159,7 +184,7 @@ public class ILPrun {
                             ));*/
 
                 }
-            //}
+            }
         }
         cplex.addMinimize(min);
 
