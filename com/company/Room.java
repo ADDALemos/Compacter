@@ -98,7 +98,17 @@ public class Room {
         int counter=0;
         for (int i = 0; i < DAYS; i++) {
             for (int j = 1; j < SLOTS; j++) {
-                if(allocaton[i][j]!=allocaton[i][j-1]&&allocaton[i][j-1]!=null&&allocaton[i][j]==null)
+                int temp1=0;
+               // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if(allocaton[i][j-1]==null)
+                    temp1+=0;
+                else
+                    temp1+=1;
+                if(allocaton[i][j]==null)
+                    temp1+=0;
+                else
+                    temp1+=1;
+                if(temp1==1)
                     counter++;
 
             }

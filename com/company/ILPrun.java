@@ -98,8 +98,8 @@ public class ILPrun {
                     //for (int k = 0; k < 26; k++) {
                     if (cplex.getValue(room[l.getId()][j][l.getDay()][l.getStart() + i]) != 0) {
                         int v = i + l.getStart();
-                        System.out.println(l.getName() + " d" + l.getDay() + " j" + roomCAP.get(j).getName() + " slot" + v + " sol:" +
-                                cplex.getValue(room[l.getId()][j][l.getDay()][l.getStart() + i]));
+                      //  System.out.println(l.getName() + " d" + l.getDay() + " j" + roomCAP.get(j).getName() + " slot" + v + " sol:" +
+                               // cplex.getValue(room[l.getId()][j][l.getDay()][l.getStart() + i]));
                     }
 
                     //}
@@ -128,7 +128,7 @@ public class ILPrun {
                         v += cplex.getValue(room[l][j][i][k]);
                         //}
                     }
-                    System.out.println("v" + v);
+                    //System.out.println("v" + v);
                     if (v == 1)
                         comp++;
 
