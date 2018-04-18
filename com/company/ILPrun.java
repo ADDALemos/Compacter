@@ -13,8 +13,17 @@ public class ILPrun {
 
     public static void run(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
         int max = 0;
+        double time = 20568;
         try {
             IloCplex cplex = createIloCplex();
+            cplex.setParam(IloCplex.Param.TimeLimit, time);//1924 36000
+            //seg //600 272//3600 ??// 146
+            //ter//600 //3600 196 // 21600 148//?? 148
+            //qua//600 174//3600 122//21600 122
+            //qui//600 146//3600 111//21600 99
+            //sex//600 //3600 //
+
+
             // Create start variables
 
             IloNumVar[][][][] room = defineRoom(roomNumber, lessonNumber, cplex);
@@ -50,6 +59,8 @@ public class ILPrun {
                 cplex.end();
 
                 cplex = createIloCplex();
+                cplex.setParam(IloCplex.Param.TimeLimit, time);
+
                 // Create start variables
 
                 room = defineRoom(roomNumber, lessonNumber, cplex);
@@ -73,6 +84,7 @@ public class ILPrun {
 
 
                 }
+                System.out.println(cplex.getObjValue());
                 //cplex1.exportModel("test.lp");
                 cplex.end();
 

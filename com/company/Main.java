@@ -13,27 +13,38 @@ public class Main {
         File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360897.txt");
         File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360897.txt");
 
-        File fileS = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
+        File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
         File fileT = new File("/Volumes/MAC/normal/Alameda16Ter.txt");
-        File fileQ2 = new File("/Volumes/MAC/normal/Alameda17Qui.txt");
-        File fileQ1 = new File("/Volumes/MAC/normal/Alameda17Qua.txt");
-        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
-        File file4 = new File("/Volumes/MAC/normal/lessonsAlmedaB.txt");
-        File file5 = new File("/Volumes/MAC/normal/lessonsAlamedaA.txt");
+        File fileQ2 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
+        File fileQ1 = new File("/Volumes/MAC/normal/Alameda16Qua.txt");
+        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Sex.txt");
+        File file4 = new File("/Volumes/MAC/normal/Taguspark16.txt");
+        File file5 = new File("/Volumes/MAC/normal/Taguspark17.txt");
 
         List<Room> af = Load.readROOM(file);
 
         af.addAll(Load.readROOM(file1));
         af.addAll(Load.readROOM(file2));
-        List<com.company.Lesson> ll = com.company.Load.readLesson(fileS1);
-    /*    ll.addAll(Load.readLesson(fileT));
+        //  af=Load.randomCloseRoom(0.1, af);
+        List<com.company.Lesson> ll = com.company.Load.readLesson(fileS);
+     /*   ll.addAll(Load.readLesson(fileT));
         ll.addAll(Load.readLesson(fileQ1));
         ll.addAll(Load.readLesson(fileQ2));
         ll.addAll(Load.readLesson(fileS1));*/
         //com.company.Load.print(ll,af);
-        System.out.println("l" + ll.size());
-        //assign2(af, ll);
+        //System.out.println("l" + ll.size());
+        //   Load.allocROOMfromLesson(ll,af);
+        int c = 0;
+        for (Room r :
+                af) {
+            c += r.numberStudent();
+        }
+        System.out.println(c);
+        // stats(af);
+//        assign2(af, ll);
         ILPrun.run(af.size(), ll.size(), ll, af);
+        System.exit(0);
+
         int s = 0;
         for (Lesson l :
                 ll) {

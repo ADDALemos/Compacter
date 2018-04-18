@@ -94,6 +94,22 @@ public class Room {
         }
         return counter;
     }
+
+    public int numberStudent() {
+        int counter = 0;
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < SLOTS; j++) {
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (allocaton[i][j] != null)
+                    counter += (allocaton[i][j].getStudents() > capacity ?
+                            allocaton[i][j].getStudents() - capacity : 0);
+
+            }
+        }
+        return counter;
+
+    }
+
     public  int numberTransistion(){
         int counter=0;
         for (int i = 0; i < DAYS; i++) {

@@ -6,9 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Alexandre on 14/06/2017.
+ * 14 E3
+ 57 QA1.3
+ 70 V0.10
+ 17 EA1
+ 62 V0.02
+ 39 MOM
  */
 public class Load {
 
@@ -18,6 +25,10 @@ public class Load {
     }
 
     public static List<Room> readROOM(File file) {
+        return readROOM(file, 0);
+    }
+
+    public static List<Room> readROOM(File file, int ignore) {
         Scanner scanner = null;
         List<Room> r = new ArrayList<Room>();
         try {
@@ -29,7 +40,20 @@ public class Load {
         scanner.nextLine();
         while (scanner.hasNext()) {
             String[] tokens = scanner.nextLine().split(";");
-            r.add(new Room(Integer.parseInt(tokens[1]), 0, tokens[0], tokens[0]));//0-> no segundo argumento no ficheiros mais recentes
+            r.add(new Room(Integer.parseInt(tokens[1]), 0, tokens[0], tokens[2]));//0-> no segundo argumento no ficheiros mais recentes
+        }
+        return r;
+    }
+
+    public static List<Room> randomCloseRoom(double ignore, List<Room> r) {
+        List<Room> ign = new ArrayList<>();
+        int originalSize = r.size();
+        for (; ign.size() < Math.ceil(ignore * originalSize); ) {
+            int randomNum = ThreadLocalRandom.current().nextInt(0, r.size());
+            ign.add(r.get(randomNum));
+            r.remove(randomNum);
+            System.out.println(randomNum + " " + r.get(randomNum).getName());
+
         }
         return r;
     }
@@ -65,9 +89,9 @@ public class Load {
                     endHafl = 0;
                 if (Integer.parseInt(tokens[6]) <= 6) {
                     //System.out.println(slot[Integer.parseInt(tokens[1])-8][startHalf]+" "+slot[Integer.parseInt(tokens[3])-8][endHafl]+" "+tokens[0]+" "+Integer.parseInt(tokens[5])+" "+Integer.parseInt(tokens[6]));
-                    if (tokens.length > 7)
+                    if (tokens.length > 7) {
                         r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, tokens[7]));
-                    else
+                    } else
                         r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2));
 
                 } else
@@ -152,6 +176,20 @@ public class Load {
         System.out.println(((double) geral / slot) * 100);
     }
 
+    public static void allocROOMfromLesson(List<Lesson> l, List<Room> r) {
+        for (com.company.Lesson l01 :
+                l) {
+            boolean b = false;
+            for (int i = 0; i < r.size(); i++) {
+                if (r.get(i).id.equals(l01.originalRoom)) {
+                    r.get(i).assing(l01);
+                    b = true;
+                }
+            }
+            System.out.print((b != true ? l01.originalRoom + "\n" : ""));
+
+        }
+    }
 
     public static List<Room> loadROOMA() {
         List<Room> r = new ArrayList<Room>();
