@@ -305,12 +305,15 @@ public class ILPrun {
     }
 
     private static class Callback extends IloCplex.MIPInfoCallback {
-        Callback() {
+        private final double _timeStart;
+
+        Callback() throws IloException {
+            _timeStart = cplex.getCplexTime();
         }
 
         @Override
         protected void main() throws IloException {
-            System.out.println("Time " + cplex.getCplexTime());
+            System.out.println("Time " + (cplex.getCplexTime() - _timeStart));
             System.out.println("Sol " + hasIncumbent());
             System.out.println("Value " + getIncumbentObjValue());
         }
