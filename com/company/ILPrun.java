@@ -10,14 +10,15 @@ import ilog.cplex.IloCplex;
 import java.util.List;
 
 public class ILPrun {
+    public static IloCplex cplex;
 
     public static void run(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
         int max = 0;
-        double time = 20568;
+        double time = 4000568;
         try {
-            IloCplex cplex = createIloCplex();
+            cplex = createIloCplex();
             cplex.setParam(IloCplex.Param.TimeLimit, time);//1924 36000
-            
+
 
             // Create start variables
 
@@ -72,6 +73,7 @@ public class ILPrun {
                 // cplex1.addMaximize(temp);
 
                 //cplex1.addEq((int)val,temp);
+                cplex.use(new Callback());
 
 
                 if (cplex.solve()) {
@@ -79,7 +81,6 @@ public class ILPrun {
 
 
                 }
-                System.out.println(cplex.getObjValue());
                 //cplex1.exportModel("test.lp");
                 cplex.end();
 
@@ -302,5 +303,19 @@ public class ILPrun {
     private static IloCplex createIloCplex() throws IloException {
         return new IloCplex();
     }
+
+    private static class Callback extends IloCplex.MIPInfoCallback {
+        Callback() {
+        }
+
+        @Override
+        protected void main() throws IloException {
+            System.out.println("Time " + cplex.getCplexTime());
+            System.out.println("Sol " + hasIncumbent());
+            System.out.println("Value " + getIncumbentObjValue());
+        }
+
+    }
+
 
 }
