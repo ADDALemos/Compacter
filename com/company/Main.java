@@ -26,7 +26,7 @@ public class Main {
         af.addAll(Load.readROOM(file1));
         af.addAll(Load.readROOM(file2));
         //  af=Load.randomCloseRoom(0.1, af);
-        List<com.company.Lesson> ll = com.company.Load.readLesson(fileS);
+        List<com.company.Lesson> ll = com.company.Load.readLesson(fileQ1);
      /*   ll.addAll(Load.readLesson(fileT));
         ll.addAll(Load.readLesson(fileQ1));
         ll.addAll(Load.readLesson(fileQ2));

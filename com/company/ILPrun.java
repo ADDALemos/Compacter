@@ -26,6 +26,9 @@ public class ILPrun {
             // IloNumVar[][][] lesson = defineLesson(lessonNumber, cplex);
             standartEncoding(roomNumber, lessonSet, cplex, room, null);
 
+            //10
+
+
             if (max == 1) {
                 //Seat everyone & compact
                 for (com.company.Lesson l :
@@ -41,6 +44,8 @@ public class ILPrun {
                 //cplex.exportModel("test.lp");
             }
             if (max == 0) {
+                //10
+                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, 0.1);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
@@ -214,6 +219,18 @@ public class ILPrun {
             }
         }
         return temp;
+    }
+
+    private static void studentsAlfa(int roomNumber, List<Lesson> lessonSet, List<Room> roomCAP, IloCplex cplex, IloNumVar[][][][] room, double alfa) throws IloException {
+        for (Lesson l :
+                lessonSet) {
+            for (int j = 0; j < roomNumber; j++) {
+                for (int i = 0; i < l.getLenght(); i++) {
+                    cplex.addGe(roomCAP.get(j).getCapacity(),
+                            cplex.prod(l.getStudents() * alfa, room[l.getId()][j][l.getDay()][l.getStart() + i]));
+                }
+            }
+        }
     }
 
     private static void standartEncoding(int roomNumber, List<Lesson> lessonSet, IloCplex cplex, IloNumVar[][][][] room, IloNumVar[][][] lesson) throws IloException {
