@@ -44,8 +44,10 @@ public class ILPrun {
                 //cplex.exportModel("test.lp");
             }
             if (max == 0) {
-                //10
-                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, 0.1);
+                //Seg 35% 59446 -59456 Ter .27 Qua .27 (54934 para 54916) Qui .27 Sex .27
+                //Seg 35 Ter 35 Qua 35  Qui 35 Sex 12
+                //Taguspark17 10% TAGUSPARK16 35
+                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .30);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
@@ -58,7 +60,7 @@ public class ILPrun {
                 //cplex.exportModel("testold.lp");
 
                 cplex.end();
-
+System.exit(1);
                 cplex = createIloCplex();
                 cplex.setParam(IloCplex.Param.TimeLimit, time);
 
@@ -227,7 +229,8 @@ public class ILPrun {
             for (int j = 0; j < roomNumber; j++) {
                 for (int i = 0; i < l.getLenght(); i++) {
                     cplex.addGe(roomCAP.get(j).getCapacity(),
-                            cplex.prod(l.getStudents() * alfa, room[l.getId()][j][l.getDay()][l.getStart() + i]));
+                            cplex.prod(l.getStudents()-(l.getStudents() * alfa), room[l.getId()][j][l.getDay()][l.getStart() + i]));
+
                 }
             }
         }
