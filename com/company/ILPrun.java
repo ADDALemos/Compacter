@@ -47,7 +47,7 @@ public class ILPrun {
                 //Seg 35% 59446 -59456 Ter .27 Qua .27 (54934 para 54916) Qui .27 Sex .27
                 //Seg 35 Ter 35 Qua 35  Qui 35 Sex 12
                 //Taguspark17 10% TAGUSPARK16 35
-                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .30);
+                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .33);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
@@ -60,7 +60,6 @@ public class ILPrun {
                 //cplex.exportModel("testold.lp");
 
                 cplex.end();
-System.exit(1);
                 cplex = createIloCplex();
                 cplex.setParam(IloCplex.Param.TimeLimit, time);
 
@@ -69,7 +68,7 @@ System.exit(1);
                 room = defineRoom(roomNumber, lessonNumber, cplex);
                 standartEncoding(roomNumber, lessonSet, cplex, room, null);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
-
+                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .33);
 
                 compact(roomNumber, lessonNumber, cplex, room, lessonSet);
                 //cplex.exportModel("mo1.lp");
@@ -113,6 +112,9 @@ System.exit(1);
                     //for (int k = 0; k < 26; k++) {
                     if (cplex.getValue(room[l.getId()][j][l.getDay()][l.getStart() + i]) != 0) {
                         int v = i + l.getStart();
+                        System.out.print((l.getStudents() > roomCAP.get(j).getCapacity() ?
+                                l.getName()+";Roomname;"+roomCAP.get(j).getName()+";Std;"+ l.getStudents()
+                                        +";cap;"+roomCAP.get(j).getCapacity()+"\n" : ""));
                       //  System.out.println(l.getName() + " d" + l.getDay() + " j" + roomCAP.get(j).getName() + " slot" + v + " sol:" +
                                // cplex.getValue(room[l.getId()][j][l.getDay()][l.getStart() + i]));
                     }

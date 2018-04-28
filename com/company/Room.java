@@ -94,6 +94,19 @@ public class Room {
         }
         return counter;
     }
+    public void printLessonsBadAlloc(){
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < SLOTS; j++) {
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (allocaton[i][j] != null)
+                    System.out.print( (allocaton[i][j].getStudents() > capacity ?
+                            allocaton[i][j].getName()+";Roomname;"+getName()+";Std;"+ allocaton[i][j].getStudents()
+                                    +";cap;"+getCapacity()+"\n" : ""));
+
+            }
+        }
+
+    }
 
     public int numberStudent() {
         int counter = 0;

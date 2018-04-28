@@ -33,16 +33,21 @@ public class Main {
         ll.addAll(Load.readLesson(fileS1));*/
         //com.company.Load.print(ll,af);
         //System.out.println("l" + ll.size());
-        //   Load.allocROOMfromLesson(ll,af);
-        int c = 0;
+         //  Load.allocROOMfromLesson(ll,af);
+        //int c = 0;
         for (Room r :
                 af) {
-            c += r.numberStudent();
+            r.printLessonsBadAlloc();
         }
-        System.out.println(c);
+        //System.out.println(c);
         // stats(af);
 //        assign2(af, ll);
         ILPrun.run(af.size(), ll.size(), ll, af);
+        System.out.println("a");
+        for (Room r :
+                af) {
+            r.printLessonsBadAlloc();
+        }
         System.exit(0);
 
         int s = 0;
