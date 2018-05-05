@@ -14,7 +14,7 @@ public class ILPrun {
 
     public static void run(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
         int max = 0;
-        double time = 4000568;
+        double time = 456777600;
         try {
             cplex = createIloCplex();
             cplex.setParam(IloCplex.Param.TimeLimit, time);//1924 36000
@@ -47,7 +47,7 @@ public class ILPrun {
                 //Seg 35% 59446 -59456 Ter .27 Qua .27 (54934 para 54916) Qui .27 Sex .27
                 //Seg 35 Ter 35 Qua 35  Qui 35 Sex 12
                 //Taguspark17 10% TAGUSPARK16 35
-                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .33);
+                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .43);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
@@ -61,14 +61,18 @@ public class ILPrun {
 
                 cplex.end();
                 cplex = createIloCplex();
-                cplex.setParam(IloCplex.Param.TimeLimit, time);
+                IloCplex.ParameterSet set = new IloCplex.ParameterSet();
+                set.setParam(IloCplex.Param.TimeLimit, time);
+                set.setParam(IloCplex.Param.Preprocessing.RepeatPresolve  ,3);
+                cplex.setParameterSet(set);
+               // cplex.setParam(IloCplex.Param.TimeLimit, time);
 
                 // Create start variables
 
                 room = defineRoom(roomNumber, lessonNumber, cplex);
                 standartEncoding(roomNumber, lessonSet, cplex, room, null);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
-                studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .33);
+                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .43);
 
                 compact(roomNumber, lessonNumber, cplex, room, lessonSet);
                 //cplex.exportModel("mo1.lp");
