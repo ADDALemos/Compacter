@@ -24,7 +24,11 @@ public class ILPrun {
 
             IloNumVar[][][][] room = defineRoom(roomNumber, lessonNumber, cplex);
             // IloNumVar[][][] lesson = defineLesson(lessonNumber, cplex);
+            forceRoom(lessonSet,roomCAP,cplex,room);
+
+
             standartEncoding(roomNumber, lessonSet, cplex, room, null);
+
 
             //10
 
@@ -51,8 +55,9 @@ public class ILPrun {
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
-                //cplex.exportModel("test.lp");
+                cplex.exportModel("test.lp");
             }
+
             if (cplex.solve()) {
                 out(roomNumber, lessonNumber, lessonSet, roomCAP, cplex, room);
 
@@ -68,6 +73,8 @@ public class ILPrun {
                // cplex.setParam(IloCplex.Param.TimeLimit, time);
 
                 // Create start variables
+                forceRoom(lessonSet,roomCAP,cplex,room);
+
 
                 room = defineRoom(roomNumber, lessonNumber, cplex);
                 standartEncoding(roomNumber, lessonSet, cplex, room, null);
@@ -105,6 +112,24 @@ public class ILPrun {
             e.printStackTrace();
         }
 
+    }
+
+    private static void forceRoom(List<Lesson> ll, List<Room> rr, IloCplex cplex, IloNumVar[][][][] room) throws IloException {
+        for (Lesson l :
+                ll) {
+            for (int j=0; j<rr.size();j++) {
+                if (rr.get(j).id.equals(l.originalRoom)) {
+                    if(rr.get(j).getCapacity()<l.getStudents()){
+                        l.setStudents(rr.get(j).getCapacity());
+                        for (int i = 0; i < l.getLenght(); i++) {
+                            cplex.addEq(room[l.getId()][j][l.getDay()][l.getStart() + i],1);
+                        }
+
+                    }
+                }
+            }
+
+        }
     }
 
     private static void out(int roomNumber, int lessonNumber, List<Lesson> lessonSet, List<Room> roomCAP, IloCplex cplex, IloNumVar[][][][] room) throws IloException {
