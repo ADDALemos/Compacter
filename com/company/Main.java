@@ -9,17 +9,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File file = new File("C:\\Users\\alexa\\Desktop\\normal\\EnsinoL2448131360898.txt");//EnsinoL2448131360898
-        File file1 = new File("C:\\Users\\alexa\\Desktop\\normal\\EnsinoM2448131360898.txt");
-        File file2 = new File("C:\\Users\\alexa\\Desktop\\normal\\EnsinoSmall2448131360898.txt");
+        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360897.txt");//EnsinoL2448131360898
+        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360897.txt");
+        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360897.txt");
 
         File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
-        File fileT = new File("/Volumes/MAC/normal/Alameda16Ter.txt");
+        File fileT = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
         File fileQ2 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
-        File fileQ1 = new File("C:\\Users\\alexa\\Desktop\\normal\\Taguspark16.txt");
+        File fileQ1 = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
         File fileS1 = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
         File file4 = new File("/Volumes/MAC/normal/Taguspark16.txt");
         File file5 = new File("/Volumes/MAC/normal/Taguspark17.txt");
+        //Taguspark 49038 49555 17 40231 40511
+        //Seg 52933 55649 17 !!48808 50905
+        // Ter 55509 59228 17 42609 42609
+//QUA 16 48465 50393 17 31389 32293
+        // QUI 16 53638 57168!! 17 27528 28530
+        // SEX 40657 42957 17 44978 47339
 
         List<Room> af = Load.readROOM(file);
 
@@ -33,32 +39,39 @@ public class Main {
         ll.addAll(Load.readLesson(fileS1));*/
         //com.company.Load.print(ll,af);
         //System.out.println("l" + ll.size());
-         //  Load.allocROOMfromLesson(ll,af);
+        // Load.allocROOMfromLesson(ll,af);
         //int c = 0;
         for (Room r :
                 af) {
             r.printLessonsBadAlloc();
         }
+        //System.exit(1);
+      /*  int s = 0;
+        for (Lesson l :
+                ll) {
+            s += l.getStudents() * l.getLenght();
+
+        }
+        System.out.println(s);*/
         //System.out.println(c);
         // stats(af);
 //        assign2(af, ll);
         ILPrun.run(af.size(), ll.size(), ll, af);
-        System.out.println("a");
+     /*   s = 0;
+        for (Lesson l :
+                ll) {
+            s += l.getStudents() * l.getLenght();
+
+        }
+        System.out.println(s);*/
         for (Room r :
                 af) {
             r.printLessonsBadAlloc();
         }
         System.exit(0);
 
-        int s = 0;
-        for (Lesson l :
-                ll) {
-            s += l.getStudents() * l.getLenght();
 
-        }
-        System.out.println(s);
-        System.exit(0);
-/*
+        /*
         //List<Lesson> llb = Load.readLesson(file4);
         //List<Lesson> ls = Load.readLesson(file5);
         int v=0;

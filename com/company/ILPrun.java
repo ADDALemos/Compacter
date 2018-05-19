@@ -14,7 +14,7 @@ public class ILPrun {
 
     public static void run(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
         int max = 0;
-        double time = 456777600;
+        double time = 4000568;
         try {
             cplex = createIloCplex();
             cplex.setParam(IloCplex.Param.TimeLimit, time);//1924 36000
@@ -24,11 +24,10 @@ public class ILPrun {
 
             IloNumVar[][][][] room = defineRoom(roomNumber, lessonNumber, cplex);
             // IloNumVar[][][] lesson = defineLesson(lessonNumber, cplex);
-            forceRoom(lessonSet,roomCAP,cplex,room);
+            //forceRoom(lessonSet,roomCAP,cplex,room);
 
 
             standartEncoding(roomNumber, lessonSet, cplex, room, null);
-
 
             //10
 
@@ -48,16 +47,13 @@ public class ILPrun {
                 //cplex.exportModel("test.lp");
             }
             if (max == 0) {
-                //Seg 35% 59446 -59456 Ter .27 Qua .27 (54934 para 54916) Qui .27 Sex .27
-                //Seg 35 Ter 35 Qua 35  Qui 35 Sex 12
-                //Taguspark17 10% TAGUSPARK16 35
-                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, .43);
+                //10
+                //studentsAlfa(roomNumber, lessonSet, roomCAP, cplex, room, 0.1);
                 IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
 
                 cplex.addMaximize(temp);
-                cplex.exportModel("test.lp");
+                //cplex.exportModel("test.lp");
             }
-
             if (cplex.solve()) {
                 out(roomNumber, lessonNumber, lessonSet, roomCAP, cplex, room);
 
@@ -65,7 +61,9 @@ public class ILPrun {
                 //cplex.exportModel("testold.lp");
 
                 cplex.end();
-                cplex = createIloCplex();
+                return;
+
+                /*cplex = createIloCplex();
                 IloCplex.ParameterSet set = new IloCplex.ParameterSet();
                 set.setParam(IloCplex.Param.TimeLimit, time);
                 set.setParam(IloCplex.Param.Preprocessing.RepeatPresolve  ,3);
@@ -100,7 +98,7 @@ public class ILPrun {
                 }
                 //cplex1.exportModel("test.lp");
                 cplex.end();
-
+*/
 
             } else {
                 System.out.println("error");

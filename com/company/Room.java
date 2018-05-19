@@ -36,6 +36,8 @@ public class Room {
     }
 
     public Boolean assing(Lesson l){
+        if (getCapacity() < l.getStudents() - (l.getStudents() * l.getAlfa()))
+            return false;
         for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
                 return false;

@@ -90,9 +90,22 @@ public class Load {
                 if (Integer.parseInt(tokens[6]) <= 6) {
                     //System.out.println(slot[Integer.parseInt(tokens[1])-8][startHalf]+" "+slot[Integer.parseInt(tokens[3])-8][endHafl]+" "+tokens[0]+" "+Integer.parseInt(tokens[5])+" "+Integer.parseInt(tokens[6]));
                     if (tokens.length > 7) {
-                        r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, tokens[7]));
+                        Lesson nl = new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, tokens[7]);
+                        nl.setAlfa(.1);
+                        boolean test = true;
+                        for (Lesson l :
+                                r) {
+                            if (l.equals(nl)) {
+                                test = false;
+                                nl.decrement();
+                                break;
+                            }
+
+                        }
+                        if (test)
+                            r.add(nl);
                     } else
-                        r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2));
+                        r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, 0.1));
 
                 } else
                     System.out.println(s);
