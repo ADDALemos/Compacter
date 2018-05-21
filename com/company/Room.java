@@ -36,7 +36,7 @@ public class Room {
     }
 
     public Boolean assing(Lesson l){
-        if (getCapacity() < l.getStudents() - (l.getStudents() * l.getAlfa()))
+        if (getCapacity() < Math.floor(l.getStudents() - (l.getStudents() * l.getAlfa())))
             return false;
         for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
@@ -172,9 +172,11 @@ public class Room {
 
     }
     public double newCost(Lesson l){
+        if (getCapacity() < Math.floor(l.getStudents() - (l.getStudents() * l.getAlfa())))
+            return -2000000;
         for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
-                return -10000;
+                return -1000000;
             }
         }
         if(l.getStudents()>this.getCapacity())

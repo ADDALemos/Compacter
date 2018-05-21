@@ -61,9 +61,9 @@ public class ILPrun {
                 //cplex.exportModel("testold.lp");
 
                 cplex.end();
-                return;
 
-                /*cplex = createIloCplex();
+
+                cplex = createIloCplex();
                 IloCplex.ParameterSet set = new IloCplex.ParameterSet();
                 set.setParam(IloCplex.Param.TimeLimit, time);
                 set.setParam(IloCplex.Param.Preprocessing.RepeatPresolve  ,3);
@@ -98,7 +98,7 @@ public class ILPrun {
                 }
                 //cplex1.exportModel("test.lp");
                 cplex.end();
-*/
+
 
             } else {
                 System.out.println("error");

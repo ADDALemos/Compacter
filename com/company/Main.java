@@ -9,89 +9,57 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360897.txt");//EnsinoL2448131360898
-        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360897.txt");
-        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360897.txt");
+        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360898.txt");//EnsinoL2448131360898
+        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360898.txt");
+        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360898.txt");
 
-        File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
-        File fileT = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
+        File fileS = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
+        File fileT = new File("/Volumes/MAC/normal/Alameda16Ter.txt");
         File fileQ2 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
-        File fileQ1 = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
-        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
-        File file4 = new File("/Volumes/MAC/normal/Taguspark16.txt");
-        File file5 = new File("/Volumes/MAC/normal/Taguspark17.txt");
-        //Taguspark 49038 49555 17 40231 40511
-        //Seg 52933 55649 17 !!48808 50905
-        // Ter 55509 59228 17 42609 42609
-//QUA 16 48465 50393 17 31389 32293
-        // QUI 16 53638 57168!! 17 27528 28530
-        // SEX 40657 42957 17 44978 47339
+        File fileQ1 = new File("/Volumes/MAC/normal/Alameda16Qua.txt");
+        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Sex.txt");
+        File file4 = new File("/Volumes/MAC/normal/Taguspark17.txt");
+        File file5 = new File("/Volumes/MAC/normal/Taguspark16.txt");
+
 
         List<Room> af = Load.readROOM(file);
 
         af.addAll(Load.readROOM(file1));
         af.addAll(Load.readROOM(file2));
         //  af=Load.randomCloseRoom(0.1, af);
-        List<com.company.Lesson> ll = com.company.Load.readLesson(fileQ1);
-     /*   ll.addAll(Load.readLesson(fileT));
+        List<com.company.Lesson> ll = com.company.Load.readLesson(file4);
+        /*ll.addAll(Load.readLesson(fileT));
         ll.addAll(Load.readLesson(fileQ1));
         ll.addAll(Load.readLesson(fileQ2));
         ll.addAll(Load.readLesson(fileS1));*/
-        //com.company.Load.print(ll,af);
-        //System.out.println("l" + ll.size());
-        // Load.allocROOMfromLesson(ll,af);
-        //int c = 0;
-        for (Room r :
-                af) {
-            r.printLessonsBadAlloc();
-        }
-        //System.exit(1);
-      /*  int s = 0;
+
+/****** Load Hand-made solution
+ Load.allocROOMfromLesson(ll,af);*/
+/*******Total number of students
+ int s = 0;
         for (Lesson l :
                 ll) {
             s += l.getStudents() * l.getLenght();
 
         }
         System.out.println(s);*/
-        //System.out.println(c);
-        // stats(af);
-//        assign2(af, ll);
-        ILPrun.run(af.size(), ll.size(), ll, af);
-     /*   s = 0;
-        for (Lesson l :
-                ll) {
-            s += l.getStudents() * l.getLenght();
-
-        }
-        System.out.println(s);*/
+/*******Print stats
+ stats(af);*/
+        assign2(af, ll);
+/******Overbooked*/
+        System.out.println("Overbooked:");
         for (Room r :
                 af) {
             r.printLessonsBadAlloc();
         }
-        System.exit(0);
+
+/*******RUN ILP
+ ILPrun.run(af.size(), ll.size(), ll, af);*/
 
 
-        /*
-        //List<Lesson> llb = Load.readLesson(file4);
-        //List<Lesson> ls = Load.readLesson(file5);
-        int v=0;
-        for (Room r:
-            af ) {
-            v=26*5;
+/******* Greedy Algorithm Comparison and Orderings
 
-        }
-        System.out.println(v);
-        int v1=0;
-        for (Lesson l:
-                ll ) {
-            v1+=l.getLenght();
-        }
-
-        System.out.println(v1);
-        System.out.println(v1/v);
-        System.exit(0);
-
-       /* List<Room> af = Load.readROOM(file);
+ List<Room> af = Load.readROOM(file);
         List<Room> afb = Load.readROOM(file1);
         List<Room> rp = Load.readROOM(file2);
         List<Lesson> ll = Load.readLesson(file3);
@@ -234,6 +202,8 @@ public class Main {
             Room rF = null;
             Lesson lF = null;
             double d = Double.MAX_VALUE;
+
+
             for (Lesson l : ll
                     ) {
 
@@ -242,6 +212,7 @@ public class Main {
                     for (Room r :
                             af) {
                         double d1 = r.newCost(l);
+
                         if (d1 < d && d1>=0) {
                             d = d1;
                             lF = l;
@@ -254,6 +225,19 @@ public class Main {
                                 lF = l;
                                 rF = r;
                                 ln=le;
+                            } else if (r.benifit(l) == rF.benifit(lF) && r.getCapacity() < rF.getCapacity()) {
+                                d = d1;
+                                lF = l;
+                                rF = r;
+                                ln = le;
+                                comp++;
+                            } else if (r.benifit(l) == rF.benifit(lF) && l.getStudents() > lF.getStudents()) {
+                                d = d1;
+                                lF = l;
+                                rF = r;
+                                ln = le;
+                                comp++;
+
                             } else if(r.benifit(l)==rF.benifit(lF)&&r.next(l)>r.next(lF)){
                                 d = d1;
                                 lF = l;
@@ -275,6 +259,8 @@ public class Main {
             }
             if(rF==null || lF==null)
                 System.out.println("FAIL1");
+
+
             else if (rF.assing(lF)) {
                 alloced[ln] = true;
                 benifit += rF.benifit(lF) * lF.getLenght();

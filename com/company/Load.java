@@ -10,14 +10,9 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by Alexandre on 14/06/2017.
- * 14 E3
- 57 QA1.3
- 70 V0.10
- 17 EA1
- 62 V0.02
- 39 MOM
  */
 public class Load {
+    private static double slack = .3;
 
     Load() {
 
@@ -91,7 +86,7 @@ public class Load {
                     //System.out.println(slot[Integer.parseInt(tokens[1])-8][startHalf]+" "+slot[Integer.parseInt(tokens[3])-8][endHafl]+" "+tokens[0]+" "+Integer.parseInt(tokens[5])+" "+Integer.parseInt(tokens[6]));
                     if (tokens.length > 7) {
                         Lesson nl = new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, tokens[7]);
-                        nl.setAlfa(.1);
+                        nl.setAlfa(slack);
                         boolean test = true;
                         for (Lesson l :
                                 r) {
@@ -105,7 +100,7 @@ public class Load {
                         if (test)
                             r.add(nl);
                     } else
-                        r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, 0.1));
+                        r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, slack));
 
                 } else
                     System.out.println(s);
