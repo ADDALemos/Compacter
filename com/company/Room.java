@@ -6,6 +6,7 @@ package com.company;
 public class Room {
     public static final int DAYS = 5;
     public static final int SLOTS = 26;
+    public static final int COST = 1000000;
     String id;
     private int capacity;
     private int location;
@@ -173,10 +174,10 @@ public class Room {
     }
     public double newCost(Lesson l){
         if (getCapacity() < Math.floor(l.getStudents() - (l.getStudents() * l.getAlfa())))
-            return -2000000;
+            return -COST;
         for (int i = l.getStart(); i < l.getEnd(); i++) {
             if(allocaton[l.getDay()][i]!=null){
-                return -1000000;
+                return -COST;
             }
         }
         if(l.getStudents()>this.getCapacity())
