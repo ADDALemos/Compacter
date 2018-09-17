@@ -8,33 +8,60 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
+        File filea = new File("/Users/alexandrelemos/Downloads/normal/lessonsTagus1Semestre20162017.txt");
+        File fileb = new File("/Users/alexandrelemos/Downloads/normal/lessonsTagus1Semestre20172018.txt");
+        // Load.compareLesson(fileb,filea);
+        //System.exit(0);
 
         File file = new File("/Volumes/MAC/normal/EnsinoL2448131360898.txt");//EnsinoL2448131360898
         File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360898.txt");
         File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360898.txt");
 
-        File fileS = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
-        File fileT = new File("/Volumes/MAC/normal/Alameda16Ter.txt");
-        File fileQ2 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
-        File fileQ1 = new File("/Volumes/MAC/normal/Alameda16Qua.txt");
-        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Sex.txt");
+        /*File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
+        File fileT = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
+        File fileQ2 = new File("/Volumes/MAC/normal/Alameda17Qui.txt");
+        File fileQ1 = new File("/Volumes/MAC/normal/Alameda17Qua.txt");
+        File fileS1 = new File("/Volumes/MAC/normal/Alameda17Sex.txt");*/
         File file4 = new File("/Volumes/MAC/normal/Taguspark17.txt");
-        File file5 = new File("/Volumes/MAC/normal/Taguspark16.txt");
+        // File file5 = new File("/Volumes/MAC/normal/Taguspark16.txt");
 
 
         List<Room> af = Load.readROOM(file);
 
         af.addAll(Load.readROOM(file1));
         af.addAll(Load.readROOM(file2));
+
+
         //  af=Load.randomCloseRoom(0.1, af);
         List<com.company.Lesson> ll = com.company.Load.readLesson(file4);
-        /*ll.addAll(Load.readLesson(fileT));
+        //     ll.addAll(Load.readLesson(file5));
+        /*ll.addAll(Load.readLesson(fileQ1));
+        ll.addAll(Load.readLesson(fileQ2));
+        ll.addAll(Load.readLesson(fileS1));*/
+        int st = 0;
+        for (Lesson l :
+                ll) {
+            st += l.getStudents();
+        }
+        System.out.println(st);
+        // System.exit(1);
+
+      /*  ll.addAll(Load.readLesson(fileT));
         ll.addAll(Load.readLesson(fileQ1));
         ll.addAll(Load.readLesson(fileQ2));
         ll.addAll(Load.readLesson(fileS1));*/
 
 /****** Load Hand-made solution
- Load.allocROOMfromLesson(ll,af);*/
+ Load.allocROOMfromLesson(ll,af);
+ int s = 0,v=0;
+ for (Room l :
+ af) {
+ v+=l.roomoccupation();
+ if(l.roomoccupation()>0)
+ s+=l.roomoccupation1();
+ }
+ System.out.println(s);
+ System.out.println(v); System.exit(1);
 /*******Total number of students
  int s = 0;
         for (Lesson l :
@@ -45,7 +72,7 @@ public class Main {
         System.out.println(s);*/
 /*******Print stats
  stats(af);*/
-        assign2(af, ll);
+        // assign2(af, ll);
 /******Overbooked*/
         System.out.println("Overbooked:");
         for (Room r :
@@ -53,8 +80,8 @@ public class Main {
             r.printLessonsBadAlloc();
         }
 
-/*******RUN ILP
- ILPrun.run(af.size(), ll.size(), ll, af);*/
+/*******RUN ILP*/
+        ILPrun.run(af.size(), ll.size(), ll, af);
 
 
 /******* Greedy Algorithm Comparison and Orderings

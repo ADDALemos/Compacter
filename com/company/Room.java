@@ -111,6 +111,36 @@ public class Room {
 
     }
 
+    public int roomoccupation() {
+        int res = 0;
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < SLOTS; j++) {
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (allocaton[i][j] != null)
+                    res += allocaton[i][j].getStudents();
+
+
+            }
+        }
+        return res;
+
+    }
+
+    public int roomoccupation1() {
+        int res = 0;
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < SLOTS; j++) {
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (allocaton[i][j] != null)
+                    res += getCapacity();
+
+
+            }
+        }
+        return res;
+
+    }
+
     public int numberStudent() {
         int counter = 0;
         for (int i = 0; i < DAYS; i++) {

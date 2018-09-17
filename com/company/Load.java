@@ -1,11 +1,10 @@
 package com.company;
 
+import javafx.util.Pair;
+
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -53,8 +52,103 @@ public class Load {
         return r;
     }
 
+    public static void compareLesson(File file1, File file2) {
+        List<Lesson> lessons = readLesson(file1);
+        List<Lesson> lessons2 = readLesson(file2);
+        Set<String> degree = new HashSet<>();
+        Set<String> degree2 = new HashSet<>();
+        Set<String> read = new HashSet<>();
+
+
+        Map<String, Pair<Integer, Integer>> count = new HashMap<>();
+        for (Lesson l :
+                lessons2) {
+
+            if (count.containsKey(l.getName())) {
+                int temp = count.get(l.getName()).getKey();
+                temp++;
+                count.replace(l.getName(), new Pair<Integer, Integer>(temp, count.get(l.getName()).getValue()));
+
+            } else
+                count.put(l.getName(), new Pair<Integer, Integer>(1, 0));
+
+        }
+        for (Lesson l1 :
+                lessons) {
+            degree.add(l1.idDegree);
+            if (count.containsKey(l1.getName())) {
+                int temp = count.get(l1.getName()).getValue();
+                temp++;
+                count.replace(l1.getName(), new Pair<Integer, Integer>(count.get(l1.getName()).getKey(), temp));
+
+            } else {
+                count.put(l1.getName(), new Pair<Integer, Integer>(0, 1));
+
+            }
+            for (Lesson l :
+                    lessons2) {
+                degree2.add(l.idDegree);
+
+
+                if (l.getName().equals(l1.getName())) {
+                    if (l.teachers != l1.teachers && !read.contains(l.getName())) {
+                        if (l.teachers != 1 && l1.teachers == 1)
+                            System.out.println("No overlap");
+                        if (l.teachers == 1 && l1.teachers != 1)
+                            System.out.println("Possible overlap");
+                        else if (l.teachers != l1.teachers)
+                            System.out.println("Different number of teachers");
+                    }
+                    read.add(l.getName());
+
+
+                    if (l1.differSize(l))
+                        System.out.println("Size");
+                    else if (l1.differDuration(l))
+                        System.out.println("New Duration");
+                    else if (l1.differSlot(l))
+                        System.out.println("Slot preference");
+                    else if (l1.differRoom(l))
+                        System.out.println("Room preference");
+
+                    break;
+                }
+
+            }
+
+        }
+        for (String s : count.keySet()) {
+            if (count.get(s).getValue() == 0)
+                System.out.println("New lecture ");
+            else if (count.get(s).getKey() == 0)
+                System.out.println("Deleted lecture ");
+            else if (count.get(s).getValue() != count.get(s).getKey())
+                System.out.println("Change number of lectures/shiffts per week ");
+        }
+        if (degree.size() != degree2.size()) {
+            for (int i = 0; i < Math.abs(degree.size() - degree2.size()); i++) {
+                System.out.println("Removed Degree");
+            }
+        }
+        /*for (String s :
+                degree2) {
+            Boolean test=false;
+            for (String d :
+                    degree) {
+                if(d.equals(s))
+                    test=true;
+            }
+            if(!test)
+                System.out.println(s);
+
+        }*/
+
+
+    }
+
 
     public static List<Lesson> readLesson(File file) {
+        System.out.println(file);
         int slot[][] = new int[16][2];
         int slotV = 0;
         for (int i = 0; i < 13; i++) {
@@ -75,6 +169,7 @@ public class Load {
             String s = scanner.nextLine();
             try {
 
+
                 String[] tokens = s.split(";");
                 int startHalf = 1;
                 if (Integer.parseInt(tokens[2]) == 0)
@@ -86,6 +181,10 @@ public class Load {
                     //System.out.println(slot[Integer.parseInt(tokens[1])-8][startHalf]+" "+slot[Integer.parseInt(tokens[3])-8][endHafl]+" "+tokens[0]+" "+Integer.parseInt(tokens[5])+" "+Integer.parseInt(tokens[6]));
                     if (tokens.length > 7) {
                         Lesson nl = new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, tokens[7]);
+                        if (tokens.length > 10)
+                            nl.idDegree = tokens[10];
+                        if (tokens.length > 11)
+                            nl.teachers = Integer.parseInt(tokens[11]);
                         nl.setAlfa(slack);
                         boolean test = true;
                         for (Lesson l :
@@ -99,6 +198,7 @@ public class Load {
                         }
                         if (test)
                             r.add(nl);
+
                     } else
                         r.add(new Lesson(slot[Integer.parseInt(tokens[1]) - 8][startHalf], slot[Integer.parseInt(tokens[3]) - 8][endHafl], tokens[0], Integer.parseInt(tokens[5]), Integer.parseInt(tokens[6]) - 2, slack));
 

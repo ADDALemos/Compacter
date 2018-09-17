@@ -5,8 +5,10 @@ package com.company;
  */
 public class Lesson {
     private static int counter = 0;
+    public int teachers;
     String name;
     String originalRoom = null;
+    String idDegree;
     private int end;
     private int id;
     private int start;
@@ -96,7 +98,6 @@ public class Lesson {
     public void setDay(int day) {
         this.day = day;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,13 +112,21 @@ public class Lesson {
         return getName() != null ? getName().equals(lesson.getName()) : lesson.getName() == null;
     }
 
+
     @Override
     public int hashCode() {
-        int result = getName() != null ? getName().hashCode() : 0;
+        int result;
+        long temp;
+        result = getName().hashCode();
+        result = 31 * result + originalRoom.hashCode();
         result = 31 * result + getEnd();
+        result = 31 * result + getId();
         result = 31 * result + getStart();
         result = 31 * result + getLenght();
+        result = 31 * result + getStudents();
         result = 31 * result + getDay();
+        temp = Double.doubleToLongBits(getAlfa());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
@@ -145,5 +154,24 @@ public class Lesson {
 
     public void setAlfa(double alfa) {
         this.alfa = alfa;
+    }
+
+    public boolean differSize(Lesson l) {
+        return l.getStudents() != this.getStudents();
+
+    }
+
+    public boolean differRoom(Lesson l) {
+        return originalRoom != l.originalRoom;
+    }
+
+    public boolean differSlot(Lesson l) {
+        if (l.getDay() != getDay())
+            return true;
+        return l.getStart() != getStart();
+    }
+
+    public boolean differDuration(Lesson l) {
+        return l.getLenght() != getLenght();
     }
 }
