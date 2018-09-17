@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b58ce84a-706d-4a28-bf30-934cc5b33590" name="Default" comment="Refactor">
+    <list default="true" id="b58ce84a-706d-4a28-bf30-934cc5b33590" name="Default" comment="Teacher &amp; Degree concept; &quot;warm start&quot; start">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/ILPrun.java" afterPath="$PROJECT_DIR$/com/company/ILPrun.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Lesson.java" afterPath="$PROJECT_DIR$/com/company/Lesson.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Load.java" afterPath="$PROJECT_DIR$/com/company/Load.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Main.java" afterPath="$PROJECT_DIR$/com/company/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Room.java" afterPath="$PROJECT_DIR$/com/company/Room.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,7 +20,7 @@
         <entry file="file://$PROJECT_DIR$/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="93">
-              <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+              <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -78,12 +74,12 @@
                 <element signature="e#1965#1966#0" expanded="false" />
                 <element signature="e#2000#2001#0" expanded="false" />
                 <element signature="e#2030#2031#0" expanded="false" />
-                <element signature="e#3579#3580#0" expanded="false" />
-                <element signature="e#3604#3605#0" expanded="false" />
-                <element signature="e#3635#3636#0" expanded="false" />
-                <element signature="e#3662#3663#0" expanded="false" />
-                <element signature="e#3702#3703#0" expanded="false" />
-                <element signature="e#3734#3735#0" expanded="false" />
+                <element signature="e#3578#3579#0" expanded="false" />
+                <element signature="e#3603#3604#0" expanded="false" />
+                <element signature="e#3634#3635#0" expanded="false" />
+                <element signature="e#3661#3662#0" expanded="false" />
+                <element signature="e#3701#3702#0" expanded="false" />
+                <element signature="e#3733#3734#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -92,8 +88,8 @@
       <file leaf-file-name="ILPrun.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/com/company/ILPrun.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-21">
-              <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+            <state relative-caret-position="15">
+              <caret line="123" column="4" lean-forward="false" selection-start-line="123" selection-start-column="4" selection-end-line="123" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -131,7 +127,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>alfa</find>
       <find>C01</find>
       <find>ACED</find>
       <find>224</find>
@@ -161,6 +156,7 @@
       <find>out</find>
       <find>out(</find>
       <find>value</find>
+      <find>warm</find>
     </findStrings>
     <replaceStrings>
       <replace>l.getDay()-1</replace>
@@ -670,7 +666,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526927827164</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Teacher &amp; Degree concept; &quot;warm start&quot; start">
+      <created>1537216650974</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1537216650975</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -758,7 +761,8 @@
     <MESSAGE value="Fix overbooked rooms; slack for the greedy; slack different for each room" />
     <MESSAGE value="Refactor" />
     <MESSAGE value="Update cost function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update cost function" />
+    <MESSAGE value="Teacher &amp; Degree concept; &quot;warm start&quot; start" />
+    <option name="LAST_COMMIT_MESSAGE" value="Teacher &amp; Degree concept; &quot;warm start&quot; start" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -777,30 +781,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/com/company/Lesson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="34" column="24" lean-forward="false" selection-start-line="34" selection-start-column="15" selection-end-line="34" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/com/company/Room.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2505">
-          <caret line="177" column="0" lean-forward="false" selection-start-line="177" selection-start-column="0" selection-end-line="177" selection-end-column="0" />
-          <folding>
-            <element signature="e#579#580#0" expanded="false" />
-            <element signature="e#610#611#0" expanded="false" />
-            <element signature="e#655#656#0" expanded="false" />
-            <element signature="e#695#696#0" expanded="false" />
-            <element signature="e#726#727#0" expanded="false" />
-            <element signature="e#753#754#0" expanded="false" />
-            <element signature="e#793#794#0" expanded="false" />
-            <element signature="e#825#826#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2865">
@@ -989,12 +969,12 @@
             <element signature="e#1965#1966#0" expanded="false" />
             <element signature="e#2000#2001#0" expanded="false" />
             <element signature="e#2030#2031#0" expanded="false" />
-            <element signature="e#3579#3580#0" expanded="false" />
-            <element signature="e#3604#3605#0" expanded="false" />
-            <element signature="e#3635#3636#0" expanded="false" />
-            <element signature="e#3662#3663#0" expanded="false" />
-            <element signature="e#3702#3703#0" expanded="false" />
-            <element signature="e#3734#3735#0" expanded="false" />
+            <element signature="e#3578#3579#0" expanded="false" />
+            <element signature="e#3603#3604#0" expanded="false" />
+            <element signature="e#3634#3635#0" expanded="false" />
+            <element signature="e#3661#3662#0" expanded="false" />
+            <element signature="e#3701#3702#0" expanded="false" />
+            <element signature="e#3733#3734#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1072,14 +1052,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/com/company/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="84" column="0" lean-forward="false" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Applications/IBM/ILOG/CPLEX_Studio1271/cplex/lib/cplex.jar!/ilog/cplex/CplexI.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -1096,10 +1068,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/Applications/IBM/ILOG/CPLEX_Studio1271/cplex/lib/cplex.jar!/ilog/cplex/CpxNumVar.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="101">
+          <caret line="253" column="0" lean-forward="false" selection-start-line="253" selection-start-column="0" selection-end-line="253" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/com/company/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="83" column="0" lean-forward="false" selection-start-line="83" selection-start-column="0" selection-end-line="83" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Applications/IBM/ILOG/CPLEX_Studio1271/cplex/lib/cplex.jar!/ilog/concert/IloException.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="7" column="13" lean-forward="false" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/com/company/ILPrun.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-21">
-          <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
+        <state relative-caret-position="15">
+          <caret line="123" column="4" lean-forward="false" selection-start-line="123" selection-start-column="4" selection-end-line="123" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
