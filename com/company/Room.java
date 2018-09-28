@@ -11,11 +11,12 @@ public class Room {
     private int capacity;
     private int location;
     private String name;
-    private Lesson[][] allocaton= new Lesson[5][26];
+    private Lesson[][] allocaton;
 
     public Room(int capacity, int location, String name, String id) {
         this.capacity = capacity;
         this.location = location;
+        allocaton = new Lesson[5][26];
         this.name = name;
         this.id = id;
     }
@@ -157,16 +158,29 @@ public class Room {
     }
 
     public  int numberTransistion(){
+        return numberTransistion(-1, -1, -1, false);
+
+    }
+
+    private int numberTransistion(int day, int slotmin, int slotmax, Boolean clear) {
         int counter=0;
         for (int i = 0; i < DAYS; i++) {
             for (int j = 1; j < SLOTS; j++) {
                 int temp1=0;
-               // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
-                if(allocaton[i][j-1]==null)
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (day == i && (j - 1) >= slotmin && (j - 1) < slotmax && !clear)
+                    temp1 += 1;
+                else if (day == i && (j - 1) >= slotmin && (j - 1) < slotmax && clear)
+                    temp1 += 0;
+                else if (allocaton[i][j - 1] == null)
                     temp1+=0;
                 else
                     temp1+=1;
-                if(allocaton[i][j]==null)
+                if (day == i && (j - 1) >= slotmin && (j - 1) < slotmax && !clear)
+                    temp1 += 1;
+                else if (day == i && (j - 1) >= slotmin && (j - 1) < slotmax && clear)
+                    temp1 += 1;
+                else if (allocaton[i][j] == null)
                     temp1+=0;
                 else
                     temp1+=1;
@@ -280,5 +294,55 @@ public class Room {
         return compact;
 
 
+    }
+
+    public Lesson getLesson(int k, int l) {
+        return allocaton[k][l];
+    }
+
+    public boolean free(int day, int timeslot, int lenght) {
+        for (int i = 0; i < lenght; i++) {
+            if (allocaton[day][timeslot + i] != null)
+                return false;
+        }
+        return true;
+    }
+
+    public boolean sameSize(int day, int slot, int lenght) {
+        Lesson l = null;
+        for (int i = 0; i < lenght; i++) {
+            if (allocaton[day][slot + i] != null) {
+                if (i != 0) {
+                    if (l != allocaton[day][slot + i])
+                        return false;
+                } else {
+                    l = allocaton[day][slot + i];
+                    if (l.getLenght() != lenght)
+                        return false;
+                }
+
+            } else
+                return false;
+        }
+        return true;
+    }
+
+    public int tryswamp(Lesson lessonNew, Lesson lessonOld) {
+        if (lessonNew != null)
+            return numberTransistion(lessonNew.getDay(), lessonNew.getStart(), lessonNew.getStart() + lessonNew.getLenght(), false) - numberTransistion();
+        else
+            return numberTransistion(lessonOld.getDay(), lessonOld.getStart(), lessonOld.getStart() + lessonOld.getLenght(), true) - numberTransistion();
+
+    }
+
+    public Lesson swamp(Lesson lesson) {
+        if (lesson != null) {
+            Lesson old = allocaton[lesson.getDay()][lesson.getStart()];
+            for (int i = 0; i < lesson.getLenght(); i++) {
+                allocaton[lesson.getDay()][lesson.getStart() + i] = lesson;
+            }
+            return old;
+        }
+        return null;
     }
 }

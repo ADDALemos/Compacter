@@ -121,7 +121,7 @@ public class ILPrun {
         System.out.println("END");
 
     }
-    
+
 
     private static void warmStart(int roomNumber, int lessonNumber, IloCplex cplex, IloNumVar[][][][] room, double[][][][] value) {
         IloNumVar[] startVar = new IloNumVar[lessonNumber * roomNumber * 5 * 26];
