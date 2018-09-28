@@ -3,6 +3,8 @@ Two java approaches to solve the allocation of lectures to rooms are available i
 The first approach is a greedy algorithm, with a cost function which is proved to be monotone, positive and sub-modular.
 The second approach uses the IBM's CPLEX solver to solve the problem in java.
 
+NEW: A GRASP: GREEDY RANDOMIZED ADAPTIVE SEARCH PROCEDURES where Local search based on neighborhoods (lectures assigned to rooms with the same capacity).
+
 __Course Timetabling Data Sets__ The data sets consists on the data from the timetables of Instituto Superior Tecnico of the academic year of 2016/2017. This data sets are separated in two semesters and in two campi (Alameda and Taguspark). The data sets for Alameda are considerably larger.
 
 These data sets have three types of files containing the data for the classrooms, timetables and curricula of each IST campus (Alameda or Taguspark).
