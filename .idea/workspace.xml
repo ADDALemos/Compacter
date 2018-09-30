@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="b58ce84a-706d-4a28-bf30-934cc5b33590" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/ILPrun.java" afterPath="$PROJECT_DIR$/com/company/ILPrun.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Main.java" afterPath="$PROJECT_DIR$/com/company/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/com/company/Room.java" afterPath="$PROJECT_DIR$/com/company/Room.java" />
     </list>
@@ -21,9 +20,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="575" column="6" lean-forward="true" selection-start-line="575" selection-start-column="6" selection-end-line="575" selection-end-column="6" />
-              <folding />
+            <state relative-caret-position="425">
+              <caret line="634" column="19" lean-forward="false" selection-start-line="634" selection-start-column="19" selection-end-line="634" selection-end-column="19" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -84,11 +85,11 @@
       <file leaf-file-name="Room.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/com/company/Room.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2273">
-              <caret line="302" column="0" lean-forward="false" selection-start-line="302" selection-start-column="0" selection-end-line="302" selection-end-column="0" />
+            <state relative-caret-position="148">
+              <caret line="377" column="22" lean-forward="false" selection-start-line="377" selection-start-column="22" selection-end-line="377" selection-end-column="22" />
               <folding>
-                <element signature="e#8714#8715#0" expanded="true" />
-                <element signature="e#8752#8753#0" expanded="true" />
+                <element signature="e#9285#9286#0" expanded="true" />
+                <element signature="e#9323#9324#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,16 +106,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>New Du</find>
-      <find>Termodinâmica e Estrutura da Matéria2761663971472</find>
-      <find>compare</find>
-      <find>Visualização de Informação276166397147</find>
-      <find>Visualização de Informação2761663971475</find>
-      <find>??</find>
-      <find>H</find>
-      <find>Tota</find>
-      <find>com</find>
-      <find>te</find>
       <find>Te</find>
       <find>!</find>
       <find>teac</find>
@@ -125,7 +116,6 @@
       <find>warm</find>
       <find>variance</find>
       <find>va</find>
-      <find>out</find>
       <find>exe</find>
       <find>ll</find>
       <find>1</find>
@@ -135,6 +125,17 @@
       <find>ll.</find>
       <find>End</find>
       <find>loca</find>
+      <find>out</find>
+      <find>eva</find>
+      <find>print</find>
+      <find>printC</find>
+      <find>numberStudent</find>
+      <find>eval</find>
+      <find>printCompact</find>
+      <find>greedy</find>
+      <find>swamp</find>
+      <find>toSt</find>
+      <find>whil</find>
     </findStrings>
     <replaceStrings>
       <replace>l.getDay()-1</replace>
@@ -591,7 +592,14 @@
       <option name="project" value="LOCAL" />
       <updated>1537221185280</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="GRASP: Greedy phase with RCL list; Local Search phase with neighborhood.">
+      <created>1538160229872</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1538160229872</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -607,7 +615,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44798657" sideWeight="0.43214864" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44798657" sideWeight="0.56785136" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.44798657" sideWeight="0.56785136" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32718122" sideWeight="0.4838449" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32718122" sideWeight="0.47092083" order="7" side_tool="false" content_ui="tabs" />
@@ -681,7 +689,8 @@
     <MESSAGE value="Update cost function" />
     <MESSAGE value="Teacher &amp; Degree concept; &quot;warm start&quot; start" />
     <MESSAGE value="&quot;warm start&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;warm start&quot;" />
+    <MESSAGE value="GRASP: Greedy phase with RCL list; Local Search phase with neighborhood." />
+    <option name="LAST_COMMIT_MESSAGE" value="GRASP: Greedy phase with RCL list; Local Search phase with neighborhood." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -982,20 +991,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/com/company/Room.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2273">
-          <caret line="302" column="0" lean-forward="false" selection-start-line="302" selection-start-column="0" selection-end-line="302" selection-end-column="0" />
+        <state relative-caret-position="148">
+          <caret line="377" column="22" lean-forward="false" selection-start-line="377" selection-start-column="22" selection-end-line="377" selection-end-column="22" />
           <folding>
-            <element signature="e#8714#8715#0" expanded="true" />
-            <element signature="e#8752#8753#0" expanded="true" />
+            <element signature="e#9285#9286#0" expanded="true" />
+            <element signature="e#9323#9324#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="575" column="6" lean-forward="true" selection-start-line="575" selection-start-column="6" selection-end-line="575" selection-end-column="6" />
-          <folding />
+        <state relative-caret-position="425">
+          <caret line="634" column="19" lean-forward="false" selection-start-line="634" selection-start-column="19" selection-end-line="634" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

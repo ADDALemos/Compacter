@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.*;
 
 public class Main {
+    private static long start = System.currentTimeMillis();
 
     public static void main(String[] args) {
         File filea = new File("/Users/alexandrelemos/Downloads/normal/lessonsTagus1Semestre20162017.txt");
@@ -13,17 +14,17 @@ public class Main {
         // Load.compareLesson(fileb,filea);
         //System.exit(0);
 
-        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360897.txt");//EnsinoL2448131360898
-        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360897.txt");
-        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360897.txt");
+        File file = new File("/Volumes/MAC/normal/EnsinoL2448131360898.txt");//EnsinoL2448131360898
+        File file1 = new File("/Volumes/MAC/normal/EnsinoM2448131360898.txt");
+        File file2 = new File("/Volumes/MAC/normal/EnsinoSmall2448131360898.txt");
 
-        File fileS = new File("/Volumes/MAC/normal/Alameda17Seg.txt");
-        File fileT = new File("/Volumes/MAC/normal/Alameda17Ter.txt");
-        File fileQ2 = new File("/Volumes/MAC/normal/Alameda17Qui.txt");
-        File fileQ1 = new File("/Volumes/MAC/normal/Alameda17Qua.txt");
-        File fileS1 = new File("/Volumes/MAC/normal/Alameda17Sex.txt");
-        //  File file4 = new File("/Volumes/MAC/normal/Taguspark17.txt");
-        // File file5 = new File("/Volumes/MAC/normal/Taguspark16.txt");
+        File fileS = new File("/Volumes/MAC/normal/Alameda16Seg.txt");
+        File fileT = new File("/Volumes/MAC/normal/Alameda16Ter.txt");
+        File fileQ2 = new File("/Volumes/MAC/normal/Alameda16Qui.txt");
+        File fileQ1 = new File("/Volumes/MAC/normal/Alameda16Qua.txt");
+        File fileS1 = new File("/Volumes/MAC/normal/Alameda16Sex.txt");
+        File file4 = new File("/Volumes/MAC/normal/Taguspark17.txt");
+        File file5 = new File("/Volumes/MAC/normal/Taguspark16.txt");
 
 
         List<Room> af = Load.readROOM(file);
@@ -33,12 +34,12 @@ public class Main {
 
 
         //  af=Load.randomCloseRoom(0.1, af);
-        List<com.company.Lesson> ll = com.company.Load.readLesson(fileS);
-        //     ll.addAll(Load.readLesson(file5));
-        /*ll.addAll(Load.readLesson(fileQ1));
+        List<com.company.Lesson> ll = com.company.Load.readLesson(file5);
+       /* ll.addAll(Load.readLesson(fileT));
+        ll.addAll(Load.readLesson(fileQ1));
         ll.addAll(Load.readLesson(fileQ2));
         ll.addAll(Load.readLesson(fileS1));*/
-        GRASP(3, af, ll, (int) (ll.size() * .6));// .6 1000 0.1 10
+        GRASP(1000, af, ll, (int) (ll.size() * .6));// .6 1000 0.1 10
 
         int st = 0;
         for (Lesson l :
@@ -430,40 +431,49 @@ public class Main {
     }
 
     public static void GRASP(int MAX, List<Room> r, List<Lesson> l, int size) {
+        System.out.println("Stage Time(sec) #Trans #Students");
         List<Room> start = new ArrayList<>();
         List<Room> currentSol = new ArrayList<>();
         start = newInstance(r);
         r = Greedy(r, l, size);
-        printCompact(r);
+        printCompact(r, "Greedy");
         r = Local(r);
-        printCompact(r);
+        printCompact(r, "LS");
 
-        System.out.println("Execution");
+        //System.out.println("Execution");
 
         for (int i = 1; i < MAX; i++) {
             currentSol = newInstance(start);
-            System.out.println(i);
+            // System.out.println(i);
             currentSol = Greedy(currentSol, l, size);
-            printCompact(r);
+            if (evalS(currentSol, r)) {
+                printCompact(currentSol, "Greedy");
+            } else {
+                currentSol = new ArrayList<>(r);
+                printCompact(r, "Greedy");
+            }
+
 
             currentSol = Local(currentSol);
-            printCompact(r);
-
             if (eval(currentSol, r))
                 r = new ArrayList<>(currentSol);
+            printCompact(r, "LS");
+
+
 
         }
 
     }
 
-    private static void printCompact(List<Room> r) {
-        System.out.println("=====================");
-        int v = 0;
+    private static void printCompact(List<Room> r, String name) {
+        // System.out.println("=====================");
+        int v = 0, s = 0;
         for (int a = 0; a < r.size(); a++) {
             v += r.get(a).numberTransistion();
+            s += r.get(a).numberSeatedStudent();
         }
-        System.out.println("Valor:" + v);
-        System.out.println("=====================");
+        System.out.println(name + " " + (System.currentTimeMillis() - start) + " " + v + " " + s);
+        //System.out.println("=====================");
 
     }
 
@@ -483,7 +493,19 @@ public class Main {
         for (int j = 0; j < currentSol.size(); j++) {
             v += currentSol.get(j).numberTransistion();
         }
-        System.out.println((v1 > v) + " " + v1 + " New " + v);
+        //System.out.println((v1 > v) + " " + v1 + " New " + v);
+        return v1 > v;
+    }
+
+    private static boolean evalS(List<Room> currentSol, List<Room> r) {
+        int v = 0, v1 = 0;
+        for (int i = 0; i < r.size(); i++) {
+            v1 += r.get(i).numberStudent();
+        }
+        for (int j = 0; j < currentSol.size(); j++) {
+            v += currentSol.get(j).numberStudent();
+        }
+        //System.out.println((v1 > v) + " " + v1 + " New " + v);
         return v1 > v;
     }
 
@@ -576,22 +598,25 @@ public class Main {
             boolean swamp = false;
             for (int i = 0; i < af.size(); i++) {
                 for (int j = 1; j < af.size(); j++) {
-                    if (af.get(i).getCapacity() == af.get(j).getCapacity()) {
-                        for (int k = 0; k < Room.DAYS; k++) {
+                    // if (af.get(i).getCapacity() == af.get(j).getCapacity()) {
+                    for (int k = 0; k < Room.DAYS; k++) {
                             for (int l = 0; l < Room.SLOTS; l++) {
                                 if (af.get(i).getLesson(k, l) != null) {
                                     if (af.get(j).free(k, l, af.get(i).getLesson(k, l).getLenght()) ||
                                             af.get(j).sameSize(k, l, af.get(i).getLesson(k, l).getLenght())) {
-                                        if (af.get(i).tryswamp(af.get(j).getLesson(k, l),
-                                                af.get(i).getLesson(k, l)) +
-                                                af.get(j).tryswamp(af.get(i).getLesson(k, l),
-                                                        af.get(j).getLesson(k, l)) < 0) {
-                                            af.get(i).swamp(af.get(j).swamp(af.get(i).getLesson(k, l)));
-                                            swamp = true;
-                                            //     System.out.println(af.get(i).tryswamp(af.get(j).getLesson(k, l),
-                                            //           af.get(i).getLesson(k, l)) +
-                                            //         af.get(j).tryswamp(af.get(i).getLesson(k, l),
-                                            //               af.get(j).getLesson(k, l)));
+                                        if (af.get(i).improveCAP(af.get(j).getCapacity(), af.get(j).getLesson(k, l))
+                                                && af.get(j).improveCAP(af.get(i).getCapacity(), af.get(i).getLesson(k, l))) {
+                                            if (af.get(i).tryswamp(af.get(j).getLesson(k, l),
+                                                    af.get(i).getLesson(k, l)) +
+                                                    af.get(j).tryswamp(af.get(i).getLesson(k, l),
+                                                            af.get(j).getLesson(k, l)) < 0) {
+                                                af.get(i).swamp(af.get(j).swamp(af.get(i).getLesson(k, l)));
+                                                swamp = true;
+                                                //     System.out.println(af.get(i).tryswamp(af.get(j).getLesson(k, l),
+                                                //           af.get(i).getLesson(k, l)) +
+                                                //         af.get(j).tryswamp(af.get(i).getLesson(k, l),
+                                                //               af.get(j).getLesson(k, l)));
+                                            }
                                         }
 
                                     }
@@ -602,7 +627,7 @@ public class Main {
 
                             }
                         }
-                    }
+
                 }
             }
             if (!swamp)

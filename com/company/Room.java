@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Arrays;
+
 /**
  * Created by Alexandre on 10/06/2017.
  */
@@ -150,6 +152,21 @@ public class Room {
                 if (allocaton[i][j] != null)
                     counter += (allocaton[i][j].getStudents() > capacity ?
                             allocaton[i][j].getStudents() - capacity : 0);
+
+            }
+        }
+        return counter;
+
+    }
+
+    public int numberSeatedStudent() {
+        int counter = 0;
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < SLOTS; j++) {
+                // System.out.println(allocaton[i][j-1]+" "+allocaton[i][j-1]);
+                if (allocaton[i][j] != null)
+                    counter += (allocaton[i][j].getStudents() > capacity ?
+                            capacity : allocaton[i][j].getStudents());
 
             }
         }
@@ -335,6 +352,17 @@ public class Room {
 
     }
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "id='" + id + '\'' +
+                ", capacity=" + capacity +
+                ", location=" + location +
+                ", name='" + name + '\'' +
+                ", allocaton=" + Arrays.toString(allocaton) +
+                '}';
+    }
+
     public Lesson swamp(Lesson lesson) {
         if (lesson != null) {
             Lesson old = allocaton[lesson.getDay()][lesson.getStart()];
@@ -344,5 +372,13 @@ public class Room {
             return old;
         }
         return null;
+    }
+
+    public boolean improveCAP(int capacity, Lesson std) {
+        if (std != null) {
+            return capacity <= this.getCapacity();
+        }
+        return true;
+
     }
 }
