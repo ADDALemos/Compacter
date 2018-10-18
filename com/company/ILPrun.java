@@ -10,7 +10,67 @@ import ilog.cplex.IloCplex;
 import java.util.List;
 
 public class ILPrun {
+    public static final int DAY = 5;
+    public static final int TIMESLOT = 26;
     public static IloCplex cplex;
+    static int a[][][];
+
+    public static void runReview(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
+        double time = 4000568;
+        try {
+            cplex = createIloCplex();
+            cplex.setParam(IloCplex.Param.TimeLimit, time);
+            IloNumVar[][] room = defineLectureRoom(roomNumber, lessonNumber, cplex);
+            standartEncoding(roomNumber, lessonSet, cplex, room, null);
+
+            IloNumExpr temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
+
+            cplex.addMaximize(temp);
+            if (cplex.solve()) {
+                double val = cplex.getObjValue();
+                System.out.println(cplex.getObjValue());
+
+                cplex.clearModel();
+
+                cplex.end();
+
+
+                cplex = createIloCplex();
+
+                IloCplex.ParameterSet set = new IloCplex.ParameterSet();
+                set.setParam(IloCplex.Param.TimeLimit, time);
+
+                cplex.setParameterSet(set);
+
+
+                room = defineLectureRoom(roomNumber, lessonNumber, cplex);
+
+
+                standartEncoding(roomNumber, lessonSet, cplex, room, null);
+
+                temp = students(roomNumber, lessonSet, roomCAP, cplex, room);
+
+                compact(roomNumber, lessonNumber, cplex, room, lessonSet);
+
+                cplex.addEq(temp, val);
+
+
+                cplex.exportModel("test.lp");//
+
+                if (cplex.solve()) {
+                    System.out.println(cplex.getObjValue());
+                }
+
+
+            }
+
+
+        } catch (IloException e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     public static void run(int roomNumber, int lessonNumber, List<com.company.Lesson> lessonSet, List<com.company.Room> roomCAP) {
         int max = 0;
@@ -98,6 +158,7 @@ public class ILPrun {
 
                 //cplex1.addEq((int)val,temp);
                 // cplex.use(new Callback());
+                cplex.exportModel("test1.lp");
 
 
                 if (cplex.solve()) {
@@ -121,7 +182,6 @@ public class ILPrun {
         System.out.println("END");
 
     }
-
 
     private static void warmStart(int roomNumber, int lessonNumber, IloCplex cplex, IloNumVar[][][][] room, double[][][][] value) {
         IloNumVar[] startVar = new IloNumVar[lessonNumber * roomNumber * 5 * 26];
@@ -282,6 +342,61 @@ public class ILPrun {
 
     }
 
+    private static void compact(int roomNumber, int lessonNumber, IloCplex cplex, IloNumVar[][] room, List<Lesson> lessonSet) throws IloException {
+        IloNumExpr min = cplex.numExpr();
+        for (int j = 0; j < roomNumber; j++) {
+            for (int i = 0; i < DAY; i++) {
+                for (int k = 1; k < TIMESLOT; k++) {
+                    IloNumExpr behind = cplex.numExpr();
+                    int after = -1, befor = -1;
+                    for (int l = 0; l < lessonNumber; l++
+                            ) {
+                        if (k < lessonSet.get(l).getStart() || k >= (lessonSet.get(l).getStart() + lessonSet.get(l).getLenght()) || i != lessonSet.get(l).getDay()) {
+                            //
+                        } else {
+                            behind = cplex.sum(behind, cplex.prod(room[l][j], a[l][i][k]));
+                            after++;
+                        }
+                        if ((k - 1) < lessonSet.get(l).getStart() || (k - 1) >= (lessonSet.get(l).getStart() + lessonSet.get(l).getLenght()) || i != lessonSet.get(l).getDay()) {
+                            //
+                        } else {
+                            behind = cplex.sum(behind, cplex.prod(room[l][j], a[l][i][k - 1]));
+                            befor++;
+                        }
+
+                        // infront = cplex.sum(infront, room[l][j][lessonSet.get(l).getDay()][k]);
+
+
+                    }
+                    if (after != -1 && befor != -1)
+                        min = cplex.sum(min, cplex.prod(1, cplex.eq(behind, 1)));
+
+                }
+            }
+        }
+        cplex.addMinimize(min);
+
+
+    }
+
+    private static IloNumExpr students(int roomNumber, List<Lesson> lessonSet, List<Room> roomCAP, IloCplex cplex, IloNumVar[][] room) throws IloException {
+        IloNumExpr temp = cplex.numExpr();
+        for (Lesson l :
+                lessonSet) {
+            for (int j = 0; j < roomNumber; j++) {
+                for (int i = 0; i < l.getLenght(); i++) {
+                    if (roomCAP.get(j).getCapacity() >= l.getStudents())
+                        temp = cplex.sum(temp,
+                                cplex.prod(l.getStudents(), cplex.prod(room[l.getId()][j], a[l.getId()][l.getDay()][l.getStart() + i])));
+                    else
+                        temp = cplex.sum(temp,
+                                cplex.prod(roomCAP.get(j).getCapacity(), cplex.prod(room[l.getId()][j], a[l.getId()][l.getDay()][l.getStart() + i])));
+                }
+            }
+        }
+        return temp;
+    }
+
     private static IloNumExpr students(int roomNumber, List<Lesson> lessonSet, List<Room> roomCAP, IloCplex cplex, IloNumVar[][][][] room) throws IloException {
         IloNumExpr temp = cplex.numExpr();
         for (Lesson l :
@@ -311,6 +426,58 @@ public class ILPrun {
                 }
             }
         }
+    }
+
+    private static void standartEncoding(int roomNumber, List<Lesson> lessonSet, IloCplex cplex, IloNumVar[][] room, IloNumVar[][][] lesson) throws IloException {
+        a = new int[lessonSet.size()][DAY][TIMESLOT];
+        for (int i = 0; i < lessonSet.size(); i++)
+            for (int j = 0; j < DAY; j++) {
+                for (int k = 0; k < TIMESLOT; k++) {
+                    a[i][j][k] = 0;
+                }
+
+            }
+        for (Lesson l :
+                lessonSet) {
+            for (int i = 0; i < l.getLenght(); i++) {
+                a[l.getId()][l.getDay()][l.getStart() + i] = 1;
+
+            }
+
+        }
+
+
+        //not more than one room
+        for (Lesson l :
+                lessonSet) {
+            for (int i = 0; i < l.getLenght(); i++) {
+                IloNumExpr temp = cplex.numExpr();
+                for (int j = 0; j < roomNumber; j++) {
+                    temp = cplex.sum(temp, room[l.getId()][j]);
+                }
+                cplex.addEq(1, temp);
+            }
+
+        }
+        //one per room
+
+        for (int j = 0; j < roomNumber; j++) {
+            for (int i = 0; i < DAY; i++) {
+                for (int k = 0; k < TIMESLOT; k++) {
+                    IloNumExpr temp = cplex.numExpr();
+                    for (Lesson l :
+                            lessonSet) {
+                        temp = cplex.sum(temp, cplex.prod(room[l.getId()][j], a[l.getId()][i][k]));
+
+
+                    }
+                    cplex.addGe(1, temp);//<=
+
+                }
+            }
+
+        }
+
     }
 
     private static void standartEncoding(int roomNumber, List<Lesson> lessonSet, IloCplex cplex, IloNumVar[][][][] room, IloNumVar[][][] lesson) throws IloException {
@@ -386,6 +553,15 @@ public class ILPrun {
             for (int j = 0; j < 5; j++)
                 lesson[k][j] = cplex.boolVarArray(26);
         return lesson;
+    }
+
+    private static IloNumVar[][] defineLectureRoom(int roomNumber, int lessonNumber, IloCplex cplex) throws IloException {
+        IloNumVar[][] room = new IloNumVar[lessonNumber][roomNumber];
+        for (int k = 0; k < lessonNumber; k++)
+            for (int i = 0; i < roomNumber; i++)
+                room[k][i] = cplex.boolVar();
+
+        return room;
     }
 
     private static IloNumVar[][][][] defineRoom(int roomNumber, int lessonNumber, IloCplex cplex) throws IloException {
